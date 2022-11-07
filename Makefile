@@ -1,6 +1,8 @@
 cnf ?= Makefile.env
 include $(cnf)
 
+all: build run-db run
+
 build:
 	docker build -f Dockerfile -t $(IMG_NAME):$(IMG_TAG) .	
 
@@ -19,4 +21,4 @@ attach-net:
 run-db:
 	docker run -d --env-file "$(CURDIR)/.config/example-config-srv-users-db.env" -v"ztm-srv-users-db-lib:/var/lib/mysql" -v"ztm-srv-users-db-log:/var/log/mysql" -p 13306:3306 -p 23060:33060 --name ztm-srv-users-db ztm-sql-database:1.0
 
-all: build run-db run
+
