@@ -5,7 +5,7 @@ import (
 	models "api-users/models"
 	"encoding/json"
 	"net/http"
-
+	
 	cryptutils "github.com/devcoons/go-cryptutils"
 	"github.com/gin-gonic/gin"
 )
@@ -18,6 +18,7 @@ func RoutePOSTRegister(c *gin.Context) {
 		c.IndentedJSON(http.StatusExpectationFailed, nil)
 		return
 	}
+
 	values := UnmashalBody(c.Request.Body)
 
 	if values == nil {

@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"gorm.io/gorm"
-	"gorm.io/hints"
+
 )
 
 type User struct {
@@ -92,7 +92,7 @@ func UsersGetOneByUsernamePassword(db *gorm.DB, username string, password string
 func UsersGetById(db *gorm.DB, id int) *User {
 	var r = User{}
 
-	result := db.Clauses(hints.UseIndex("id")).First(&r, "id = ?", id)
+	result := db.First(&r, "id = ?", id)
 	if result.Error != nil {
 		return nil
 	}
