@@ -24,7 +24,13 @@ func AutoMigrate(db *gorm.DB) {
 		} else {
 			fmt.Println("[ER]")
 		}
-
+		fmt.Print("[MDL] - UsersRecovery ")
+		er = db.AutoMigrate(&UsersRecovery{})
+		if er == nil {
+			fmt.Println("[OK]")
+		} else {
+			fmt.Println("[ER]")
+		}
 	} else {
 		fmt.Println("[MDL] Could not migrate models (db missing)")
 	}

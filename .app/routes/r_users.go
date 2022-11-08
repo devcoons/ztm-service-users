@@ -56,3 +56,27 @@ func RouteGETUsersComplete(c *gin.Context) {
 
 	c.IndentedJSON(http.StatusOK, users)
 }
+
+func RoutePUTUsersPasswordRecovery(c *gin.Context) {
+
+	_, _, ok := InitServiceSJWT(c)
+
+	if !ok {
+		c.AbortWithStatus(401)
+		return
+	}
+
+	c.IndentedJSON(http.StatusOK, nil)
+}
+
+func RouteGETUsersPasswordRecovery(c *gin.Context) {
+
+	_, _, ok := InitServiceSJWT(c)
+
+	if !ok {
+		c.AbortWithStatus(401)
+		return
+	}
+
+	c.IndentedJSON(http.StatusOK, nil)
+}
