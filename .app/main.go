@@ -60,6 +60,7 @@ func main() {
 	router.PATCH("/nonce", routes.RoutePATCHMeNonce)
 	router.GET("/nonce", routes.RouteGETMeNonce)
 	router.GET("/users/me", routes.RouteGETMeOverview)
+	router.PUT("/users/me", routes.RoutePUTMe)
 	router.GET("/users/me/complete", routes.RouteGETMeComplete)
 	router.GET("/users/me/complete-perms", routes.RouteGETMeCompleteWPermissions)
 	router.GET("/users/me/permissions", routes.RouteGETMePermissions)

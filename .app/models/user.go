@@ -8,30 +8,29 @@ import (
 	"time"
 
 	"gorm.io/gorm"
-
 )
 
 type User struct {
-	Id          int    `gorm:"primaryKey;autoIncrement;"`
-	Username    string `gorm:"unique;not null;size:128;"`
-	Password    string `gorm:"size:256;"`
-	Role        int    `gorm:"size:2;"`
-	Nonce       string `gorm:"size:6;"`
-	FirstName   string `gorm:"size:64;"`
-	LastName    string `gorm:"size:64;"`
-	Image       []byte
-	Company     string `gorm:"size:128;"`
-	Email       string `gorm:"size:128;"`
-	MobilePhone string `gorm:"size:128;"`
-	LandLine    string `gorm:"size:128;"`
-	Country     string `gorm:"size:64;"`
-	Province    string `gorm:"size:64;"`
-	City        string `gorm:"size:64;"`
-	Address     string `gorm:"size:128;"`
-	IsEnabled   bool   `gorm:"default:true"`
-	LastLogin   time.Time
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
+	Id          int       `gorm:"primaryKey;autoIncrement;" json:"id"`
+	Username    string    `gorm:"unique;not null;size:128;" json:"username"`
+	Password    string    `gorm:"size:256;" json:"password"`
+	Role        int       `gorm:"size:2;" json:"role"`
+	Nonce       string    `gorm:"size:6;" json:"nonce"`
+	FirstName   string    `gorm:"size:64;" json:"fname"`
+	LastName    string    `gorm:"size:64;" json:"lname"`
+	Image       []byte    `json:"img"`
+	Company     string    `gorm:"size:128;" json:"company"`
+	Email       string    `gorm:"size:128;" json:"email"`
+	MobilePhone string    `gorm:"size:128;" json:"cellphone"`
+	LandLine    string    `gorm:"size:128;" json:"landline"`
+	Country     string    `gorm:"size:64;" json:"country"`
+	Province    string    `gorm:"size:64;" json:"province"`
+	City        string    `gorm:"size:64;" json:"city"`
+	Address     string    `gorm:"size:128;" json:"address"`
+	IsEnabled   bool      `gorm:"default:true" json:"enabled"`
+	LastLogin   time.Time `json:"ll_at"`
+	CreatedAt   time.Time `json:"cr_at"`
+	UpdatedAt   time.Time `json:"up_at"`
 }
 
 func (u *User) BeforeCreate(db *gorm.DB) (err error) {
