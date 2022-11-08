@@ -5,7 +5,7 @@ import (
 	models "api-users/models"
 	"encoding/json"
 	"net/http"
-	
+
 	cryptutils "github.com/devcoons/go-cryptutils"
 	"github.com/gin-gonic/gin"
 )
@@ -34,6 +34,12 @@ func RoutePOSTRegister(c *gin.Context) {
 	var user = models.User{Username: values["username"].(string), Password: values["password"].(string), Role: 1, Nonce: cryptutils.RandString(6)}
 
 	if !user.Create(srv.Database) {
+		c.IndentedJSON(http.StatusExpectationFailed, nil)
+		return
+	}
+
+	var perms = models.UsersPermissions{UserId: user.Id}
+	if !perms.Create(srv.Database) {
 		c.IndentedJSON(http.StatusExpectationFailed, nil)
 		return
 	}

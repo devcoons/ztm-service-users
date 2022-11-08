@@ -55,11 +55,14 @@ func main() {
 		c.IndentedJSON(200, nil)
 	})
 
-	router.POST("/register", routes.RoutePOSTRegister)
 	router.POST("/auth", routes.RoutePOSTLogin)
-	router.GET("/users/me", routes.RouteGETMeOverview)
-	router.GET("/nonce", routes.RouteGETMeNonce)
+	router.POST("/register", routes.RoutePOSTRegister)
 	router.PATCH("/nonce", routes.RoutePATCHMeNonce)
+	router.GET("/nonce", routes.RouteGETMeNonce)
+	router.GET("/users/me", routes.RouteGETMeOverview)
+	router.GET("/users/me/complete", routes.RouteGETMeComplete)
+	router.GET("/users/me/complete-perms", routes.RouteGETMeCompleteWPermissions)
+	router.GET("/users/me/permissions", routes.RouteGETMePermissions)
 
 	router.NoRoute(RequestForwarder)
 	fmt.Println("[GIN] Starting service at [0.0.0.0:8080]")
