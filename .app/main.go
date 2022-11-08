@@ -64,7 +64,8 @@ func main() {
 	router.GET("/users/me/complete", routes.RouteGETMeComplete)
 	router.GET("/users/me/complete-perms", routes.RouteGETMeCompleteWPermissions)
 	router.GET("/users/me/permissions", routes.RouteGETMePermissions)
-
+	router.GET("/users", routes.RouteGETUsers)
+	router.GET("/users/complete", routes.RouteGETUsersComplete)
 	router.NoRoute(RequestForwarder)
 	fmt.Println("[GIN] Starting service at [0.0.0.0:8080]")
 	router.Run("0.0.0.0:8080")
