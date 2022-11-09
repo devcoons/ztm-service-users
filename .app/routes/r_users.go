@@ -85,24 +85,24 @@ func RoutePUTUsersPasswordRecovery(c *gin.Context) {
 		return
 	}
 
-	recToken := models.UsersRecoveryGetByTokenId(srv.Database, values["password"].(string))
+	recToken := models.UsersRecoveryGetByTokenId(srv.Database, values["rec_token"].(string))
 
 	if recToken == nil {
 		c.AbortWithStatus(403)
 		return
 	}
 
-	if recToken.ExpireAt.After(time.Now()) {
+	if time.Now().After(recToken.ExpireAt) {
 		models.UsersRecoveryDeleteById(srv.Database, recToken.Id)
 		c.AbortWithStatus(402)
 		return
 	}
 
-	user := models.UsersGetById(srv.Database, recToken.Id)
+	user := models.UsersGetById(srv.Database, recToken.UserId)
 	models.UsersRecoveryDeleteById(srv.Database, recToken.Id)
 
 	if user == nil {
-		c.AbortWithStatus(402)
+		c.AbortWithStatus(401)
 		return
 	}
 
@@ -139,14 +139,14 @@ func RouteGETUsersPasswordRecovery(c *gin.Context) {
 		return
 	}
 
-	userId := models.UsersGetIdByUsername(srv.Database, uname)
+	user := models.UsersGetByUsername(srv.Database, uname)
 
-	if userId == -1 {
+	if user == nil {
 		c.AbortWithStatus(401)
 		return
 	}
-
-	recToken := models.UsersRecovery{UserId: userId}
+	models.UsersRecoveryDeleteByUserId(srv.Database, user.Id)
+	recToken := models.UsersRecovery{UserId: user.Id}
 
 	if !recToken.Create(srv.Database) {
 		c.AbortWithStatus(401)
@@ -154,11 +154,11 @@ func RouteGETUsersPasswordRecovery(c *gin.Context) {
 	}
 
 	r, _ := json.Marshal(struct {
-		UserId        int       `json:"user_id"`
+		Email         string    `json:"email"`
 		RecoveryToken string    `json:"rec_token"`
 		CreatedAt     time.Time `json:"cr_at"`
 		ExpireAtint   time.Time `json:"ex_at"`
-	}{recToken.UserId, recToken.RecoveryToken, recToken.CreatedAt, recToken.ExpireAt})
+	}{user.Email, recToken.RecoveryToken, recToken.CreatedAt, recToken.ExpireAt})
 
-	c.IndentedJSON(http.StatusOK, r)
+	c.Data(http.StatusOK, gin.MIMEJSON, (r))
 }

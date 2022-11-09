@@ -43,7 +43,7 @@ func UsersRecoveryGetById(db *gorm.DB, id int) *UsersRecovery {
 func UsersRecoveryGetByTokenId(db *gorm.DB, rec_token string) *UsersRecovery {
 	var r = UsersRecovery{}
 
-	result := db.First(&r, "rec_token = ?", rec_token)
+	result := db.First(&r, "recovery_token = ?", rec_token)
 	if result.Error != nil {
 		return nil
 	}
@@ -63,6 +63,15 @@ func UsersRecoveryGetByUserId(db *gorm.DB, user_id int) *UsersRecovery {
 func UsersRecoveryDeleteById(db *gorm.DB, id int) bool {
 
 	result := db.Delete(&UsersRecovery{}, id)
+	if result.Error != nil {
+		return false
+	}
+	return true
+}
+
+func UsersRecoveryDeleteByUserId(db *gorm.DB, user_id int) bool {
+
+	result := db.Delete(&UsersRecovery{}, "user_id = ?", user_id)
 	if result.Error != nil {
 		return false
 	}

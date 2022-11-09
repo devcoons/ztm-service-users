@@ -4,6 +4,7 @@ import (
 	"crypto/sha1"
 	"encoding/hex"
 	"errors"
+	"fmt"
 	"strings"
 	"time"
 
@@ -47,6 +48,7 @@ func (u *User) BeforeUpdate(tx *gorm.DB) (err error) {
 		return errors.New("id = 0 or null not valid")
 	}
 	if !strings.HasPrefix(u.Password, "::") {
+		fmt.Println("?")
 		h := sha1.New()
 		h.Write([]byte(u.Password))
 		u.Password = "::" + hex.EncodeToString(h.Sum(nil))
@@ -68,6 +70,15 @@ func (u *User) Create(db *gorm.DB) bool {
 }
 
 func (u *User) UpdateMapped(db *gorm.DB, mapped map[string]interface{}) bool {
+
+	if mapped["password"] != nil {
+		if !strings.HasPrefix(mapped["password"].(string), "::") {
+			h := sha1.New()
+			h.Write([]byte(mapped["password"].(string)))
+			mapped["password"] = "::" + hex.EncodeToString(h.Sum(nil))
+		}
+	}
+
 	result := db.Model(u).Updates(mapped)
 	return result.Error == nil
 }
@@ -92,6 +103,16 @@ func UsersGetById(db *gorm.DB, id int) *User {
 	var r = User{}
 
 	result := db.First(&r, "id = ?", id)
+	if result.Error != nil {
+		return nil
+	}
+	return &r
+}
+
+func UsersGetByUsername(db *gorm.DB, uname string) *User {
+	var r = User{}
+
+	result := db.First(&r, "username = ?", uname)
 	if result.Error != nil {
 		return nil
 	}
