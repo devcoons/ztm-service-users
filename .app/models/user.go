@@ -98,6 +98,16 @@ func UsersGetById(db *gorm.DB, id int) *User {
 	return &r
 }
 
+func UsersGetIdByUsername(db *gorm.DB, uname string) int {
+	var r = User{}
+
+	result := db.First(&r, "username = ?", uname)
+	if result.Error != nil {
+		return -1
+	}
+	return r.Id
+}
+
 func UsersGetAll(db *gorm.DB) *[]User {
 	var r = []User{}
 

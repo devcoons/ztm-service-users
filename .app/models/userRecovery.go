@@ -1,6 +1,7 @@
 package models
 
 import (
+	utilities "api-users/utilities"
 	"time"
 
 	"gorm.io/gorm"
@@ -8,19 +9,20 @@ import (
 
 type UsersRecovery struct {
 	Id            int       `gorm:"primaryKey;autoIncrement;" json:"id"`
-	UserId        string    `gorm:"unique;not null;size:128;" json:"user_id"`
+	UserId        int       `gorm:"unique;not null;size:128;" json:"user_id"`
 	RecoveryToken string    `gorm:"size:256;" json:"rec_token"`
 	ExpireAt      time.Time `json:"ex_at"`
 	CreatedAt     time.Time `json:"cr_at"`
 }
 
 func (u *UsersRecovery) BeforeCreate(db *gorm.DB) (err error) {
-	u.ExpireAt = time.Now().Add(time.Hour * 2)
 	return
 }
 
 func (u *UsersRecovery) Create(db *gorm.DB) bool {
-
+	u.RecoveryToken = utilities.RandomString(96)
+	u.ExpireAt = time.Now().Add(time.Hour * 2)
+	u.CreatedAt = time.Now()
 	result := db.Create(u)
 	if result.Error != nil || result.RowsAffected == 0 {
 		return false
