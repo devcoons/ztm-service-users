@@ -77,6 +77,7 @@ func main() {
 func RequestForwarder(c *gin.Context) {
 
 	var requestedPath = strings.TrimRight(c.Request.URL.Path, "/")
+	var requestedUrlQuery = c.Request.URL.RawQuery
 
 	for _, nodeDetails := range APIService.Config.Services {
 
@@ -97,11 +98,10 @@ func RequestForwarder(c *gin.Context) {
 
 			token := APIService.SJwt.GenerateJWT(claims)
 			client := &http.Client{}
-			req, _ := http.NewRequest(c.Request.Method, nodeDetails.Host+":"+strconv.Itoa(nodeDetails.Port)+requestedPath, nil)
+			req, _ := http.NewRequest(c.Request.Method, nodeDetails.Host+":"+strconv.Itoa(nodeDetails.Port)+requestedPath+"?"+requestedUrlQuery, c.Request.Body)
 			req.Header = c.Request.Header
 			req.Header.Del("Authorization")
 			req.Header.Add("Authorization", APIService.SJwt.AuthType+" "+token)
-			req.Body = c.Request.Body
 			res, errn := client.Do(req)
 			if errn == nil {
 				body, _ := ioutil.ReadAll(res.Body)
