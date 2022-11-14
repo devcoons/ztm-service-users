@@ -1,6 +1,8 @@
 cnf ?= Makefile.env
 include $(cnf)
 
+all: build run-db run
+
 build:
 	docker build -f Dockerfile -t $(IMG_NAME):$(IMG_TAG) .	
 
@@ -17,6 +19,16 @@ attach-net:
 	docker network connect $(net) $(APP_NAME) 
 
 run-db:
-	docker run --env-file "$(CURDIR)/.config/example-config-srv-users-db.env" -v"ztm-srv-users-db-lib:/var/lib/mysql" -v"ztm-srv-users-db-log:/var/log/mysql" -p 13306:3306 -p 23060:33060 --name ztm-srv-users-db sql-database:0.1
+	-docker run -d --env-file "$(CURDIR)/.config/example-config-srv-users-db.env" -v"ztm-srv-users-db-lib:/var/lib/mysql" -v"ztm-srv-users-db-log:/var/log/mysql" -p 13306:3306 -p 23060:33060 --name $(APP_NAME)-db ztm-sql-database:1.0
 
-all: build run-db run
+
+attach-default-net:
+	-docker network create ztm-net 
+	-docker network create ztm-net-db 
+	-docker network create ztm-net-users
+	-docker network connect ztm-net $(APP_NAME)
+	-docker network connect ztm-net-users $(APP_NAME)
+	-docker network connect ztm-net-users $(APP_NAME)-db
+	-docker network connect ztm-net-db $(APP_NAME)-db
+
+debug: run-db build-debug run-debug attach-default-net	

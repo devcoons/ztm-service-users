@@ -24,9 +24,28 @@ func AutoMigrate(db *gorm.DB) {
 		} else {
 			fmt.Println("[ER]")
 		}
-
+		fmt.Print("[MDL] - UsersRecovery ")
+		er = db.AutoMigrate(&UsersRecovery{})
+		if er == nil {
+			fmt.Println("[OK]")
+		} else {
+			fmt.Println("[ER]")
+		}
 	} else {
 		fmt.Println("[MDL] Could not migrate models (db missing)")
+	}
+
+}
+
+func ResetMigration(db *gorm.DB) {
+
+	if db != nil {
+		fmt.Println("[MDL] Reset models migration to database")
+		fmt.Print("[MDL] - Delete all tables")
+		db.Migrator().DropTable(&User{})
+		db.Migrator().DropTable(&UsersPermissions{})
+		db.Migrator().DropTable(&UsersRecovery{})
+		AutoMigrate(db)
 	}
 }
 

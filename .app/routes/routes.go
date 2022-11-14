@@ -1,12 +1,10 @@
 package routes
 
 import (
-	middleware "api-users/middleware"
 	models "api-users/models"
-	"encoding/json"
-	"io"
-	"io/ioutil"
 	"net/http"
+
+	ztm "github.com/devcoons/go-ztm"
 
 	"github.com/gin-gonic/gin"
 )
@@ -32,22 +30,9 @@ func RouteGatewayRefreshUserNonce(gc *gin.Context) {
 	gc.Done()
 }
 
-func UnmashalBody(body io.ReadCloser) map[string]interface{} {
-	var values map[string]interface{}
+func InitServiceSJWT(c *gin.Context) (*ztm.SJWTClaims, *ztm.Service, bool) {
 
-	bbody, err := ioutil.ReadAll(body)
-
-	if err != nil {
-		return nil
-	}
-
-	json.Unmarshal([]byte(bbody), &values)
-	return values
-}
-
-func InitServiceSJWT(c *gin.Context) (*middleware.SJWTClaims, *middleware.Service, bool) {
-
-	srv, ok := c.MustGet("service").(*middleware.Service)
+	srv, ok := c.MustGet("service").(*ztm.Service)
 
 	if !ok || srv.Database == nil {
 		c.IndentedJSON(http.StatusExpectationFailed, nil)
@@ -61,4 +46,18 @@ func InitServiceSJWT(c *gin.Context) (*middleware.SJWTClaims, *middleware.Servic
 	}
 
 	return claims, srv, true
+}
+
+func RouteGET(c *gin.Context) {
+
+	claims, _, ok := InitServiceSJWT(c)
+
+	if !ok || claims == nil {
+		c.Data(503, "application/json", nil)
+		return
+	}
+
+	claims.Hop = claims.Hop - 1
+
+	c.IndentedJSON(200, nil)
 }

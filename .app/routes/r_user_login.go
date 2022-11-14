@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	cryptutils "github.com/devcoons/go-cryptutils"
+	ztm "github.com/devcoons/go-ztm"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,7 +19,7 @@ func RoutePOSTLogin(c *gin.Context) {
 		return
 	}
 
-	values := UnmashalBody(c.Request.Body)
+	values := ztm.UnmashalBody(c.Request.Body)
 
 	if values == nil {
 		c.AbortWithStatus(401)
