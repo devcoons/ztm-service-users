@@ -12,7 +12,7 @@ import (
 
 func RoutePOSTLogin(c *gin.Context) {
 
-	_, srv, ok := InitServiceSJWT(c)
+	_, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok || srv.SJwt == nil {
 		c.IndentedJSON(http.StatusExpectationFailed, nil)

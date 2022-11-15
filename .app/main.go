@@ -30,7 +30,6 @@ func main() {
 		fmt.Println(c.FmtFgBgWhiteLBlue+"[ IMS ]"+c.FmtReset, c.FmtFgBgWhiteRed+" ERRN "+c.FmtReset, c.FmtFgBgWhiteBlack+"Initialization failed. Exiting application.."+c.FmtReset)
 		return
 	}
-
 	fmt.Println(c.FmtFgBgWhiteLBlue+"[ IMS ]"+c.FmtReset, c.FmtFgBgWhiteBlue+" INFO "+c.FmtReset, c.FmtFgBgWhiteBlack+"Models Database auto-migration"+c.FmtReset)
 	models.AutoMigrate(APIService.Database)
 
@@ -38,7 +37,6 @@ func main() {
 	router := gin.Default()
 	router.Use(gin.Recovery())
 	router.Use(ztm.AddUSEService(&APIService))
-	router.GET("/", routes.RouteGET)
 
 	////
 	////

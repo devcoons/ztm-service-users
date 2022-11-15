@@ -13,7 +13,7 @@ import (
 
 func RouteGETMeOverview(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok {
 		c.AbortWithStatus(401)
@@ -40,7 +40,7 @@ func RouteGETMeOverview(c *gin.Context) {
 
 func RoutePUTMe(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok || claims.UserId == -1 {
 		c.AbortWithStatus(401)
@@ -133,7 +133,7 @@ func RoutePUTMe(c *gin.Context) {
 
 func RouteGETMeComplete(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok {
 		c.AbortWithStatus(401)
@@ -172,7 +172,7 @@ func RouteGETMeComplete(c *gin.Context) {
 
 func RouteGETMeCompleteWPermissions(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok {
 		c.AbortWithStatus(401)

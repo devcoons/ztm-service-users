@@ -13,7 +13,7 @@ import (
 
 func RouteGETUserById(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok || srv == nil || claims == nil {
 		c.AbortWithStatus(401)
@@ -54,7 +54,7 @@ func RouteGETUserById(c *gin.Context) {
 
 func RouteGETUserByIdComplete(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok || srv == nil || claims == nil {
 		c.AbortWithStatus(401)
@@ -107,7 +107,7 @@ func RouteGETUserByIdComplete(c *gin.Context) {
 
 func RouteGETUsers(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok {
 		c.AbortWithStatus(401)
@@ -138,7 +138,7 @@ func RouteGETUsers(c *gin.Context) {
 
 func RouteGETUsersComplete(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok {
 		c.AbortWithStatus(401)
@@ -157,7 +157,7 @@ func RouteGETUsersComplete(c *gin.Context) {
 
 func RoutePUTUsersPasswordRecovery(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok {
 		c.AbortWithStatus(401)
@@ -216,7 +216,7 @@ func RoutePUTUsersPasswordRecovery(c *gin.Context) {
 
 func RouteGETUsersPasswordRecovery(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok {
 		c.AbortWithStatus(401)

@@ -14,7 +14,7 @@ func RouteDELDatabase(c *gin.Context) {
 	srv, ok := c.MustGet("service").(*ztm.Service)
 
 	if !ok || srv == nil {
-		c.IndentedJSON(http.StatusInternalServerError, models.ErrorMsg{ErrorCode: "US-S-1000", Message: "Internal Issue. m.srv-[Users] could not properly init the internal services."})
+		c.IndentedJSON(http.StatusInternalServerError, ztm.ErrorMsg{ErrorCode: "US-S-1000", Message: "Internal Issue. m.srv-[Users] could not properly init the internal services."})
 		return
 	}
 

@@ -5,12 +5,13 @@ import (
 	"encoding/json"
 	"net/http"
 
+	ztm "github.com/devcoons/go-ztm"
 	"github.com/gin-gonic/gin"
 )
 
 func RouteGETAdmin(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok || claims == nil || !claims.Auth || claims.UserId == -1 {
 		c.AbortWithStatus(401)
