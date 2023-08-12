@@ -6,12 +6,13 @@ import (
 	"net/http"
 	"time"
 
+	ztm "github.com/devcoons/go-ztm"
 	"github.com/gin-gonic/gin"
 )
 
 func RouteGETMePermissions(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok {
 		c.AbortWithStatus(401)
@@ -52,7 +53,7 @@ func RouteGETMePermissions(c *gin.Context) {
 
 func RouteGETUserPermissions(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok {
 		c.AbortWithStatus(401)

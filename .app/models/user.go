@@ -29,6 +29,7 @@ type User struct {
 	City        string    `gorm:"size:64;" json:"city"`
 	Address     string    `gorm:"size:128;" json:"address"`
 	IsEnabled   bool      `gorm:"default:true" json:"enabled"`
+	IsAdmin     bool      `gorm:"default:false" json:"admin"`
 	LastLogin   time.Time `json:"ll_at"`
 	CreatedAt   time.Time `json:"cr_at"`
 	UpdatedAt   time.Time `json:"up_at"`

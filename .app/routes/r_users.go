@@ -6,12 +6,107 @@ import (
 	"net/http"
 	"time"
 
+	ztm "github.com/devcoons/go-ztm"
 	"github.com/gin-gonic/gin"
 )
 
+func RouteGETUserById(c *gin.Context) {
+
+	claims, srv, ok := ztm.InitServiceSJWT(c)
+
+	if !ok || srv == nil || claims == nil {
+		c.AbortWithStatus(401)
+		return
+	}
+
+	if !claims.Auth || claims.UserId == -1 {
+		c.AbortWithStatus(401)
+		return
+	}
+
+	str_id := c.Param("id")
+
+	id := ztm.ConvertToInt(str_id, -1)
+
+	if id == -1 {
+		c.AbortWithStatus(401)
+		return
+	}
+
+	user := models.UsersGetById(srv.Database, id)
+
+	if user == nil {
+		c.IndentedJSON(http.StatusOK, nil)
+		return
+	}
+
+	r, _ := json.Marshal(struct {
+		Id        int    `json:"id"`
+		Username  string `json:"username"`
+		Role      int    `json:"role"`
+		FirstName string `json:"firstname"`
+		LastName  string `json:"lastname"`
+		Image     []byte `json:"image"`
+	}{user.Id, user.Username, user.Role, user.FirstName, user.LastName, user.Image})
+	c.Data(http.StatusOK, gin.MIMEJSON, (r))
+}
+
+func RouteGETUserByIdComplete(c *gin.Context) {
+
+	claims, srv, ok := ztm.InitServiceSJWT(c)
+
+	if !ok || srv == nil || claims == nil {
+		c.AbortWithStatus(401)
+		return
+	}
+
+	if !claims.Auth || claims.UserId == -1 {
+		c.AbortWithStatus(401)
+		return
+	}
+
+	str_id := c.Param("id")
+
+	id := ztm.ConvertToInt(str_id, -1)
+
+	if id == -1 {
+		c.AbortWithStatus(401)
+		return
+	}
+
+	user := models.UsersGetById(srv.Database, id)
+
+	if user == nil {
+		c.IndentedJSON(http.StatusOK, nil)
+		return
+	}
+
+	r, _ := json.Marshal(struct {
+		Id          int       `json:"id"`
+		Username    string    `json:"username"`
+		Role        int       `json:"role"`
+		FirstName   string    `json:"firstname"`
+		LastName    string    `json:"lastname"`
+		Image       []byte    `json:"image"`
+		Company     string    `json:"company"`
+		Email       string    `json:"email"`
+		MobilePhone string    `json:"cellphone"`
+		LandLine    string    `json:"landline"`
+		Country     string    `json:"country"`
+		Province    string    `json:"province"`
+		City        string    `json:"city"`
+		Address     string    `json:"address"`
+		IsEnabled   bool      `json:"is_enabled"`
+		LastLogin   time.Time `json:"last_login"`
+		CreatedAt   time.Time `json:"cr_at"`
+		UpdatedAt   time.Time `json:"up_at"`
+	}{user.Id, user.Username, user.Role, user.FirstName, user.LastName, user.Image, user.Company, user.Email, user.MobilePhone, user.LandLine, user.Country, user.Province, user.City, user.Address, user.IsEnabled, user.LastLogin, user.CreatedAt, user.UpdatedAt})
+	c.Data(http.StatusOK, gin.MIMEJSON, (r))
+}
+
 func RouteGETUsers(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok {
 		c.AbortWithStatus(401)
@@ -42,7 +137,7 @@ func RouteGETUsers(c *gin.Context) {
 
 func RouteGETUsersComplete(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok {
 		c.AbortWithStatus(401)
@@ -61,7 +156,7 @@ func RouteGETUsersComplete(c *gin.Context) {
 
 func RoutePUTUsersPasswordRecovery(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok {
 		c.AbortWithStatus(401)
@@ -73,7 +168,7 @@ func RoutePUTUsersPasswordRecovery(c *gin.Context) {
 		return
 	}
 
-	var values = UnmashalBody(c.Request.Body)
+	var values = ztm.UnmashalBody(c.Request.Body)
 
 	if values["rec_token"] == nil || values["password"] == nil {
 		c.AbortWithStatus(403)
@@ -120,7 +215,7 @@ func RoutePUTUsersPasswordRecovery(c *gin.Context) {
 
 func RouteGETUsersPasswordRecovery(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok {
 		c.AbortWithStatus(401)

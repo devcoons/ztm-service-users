@@ -6,19 +6,20 @@ import (
 	"net/http"
 
 	cryptutils "github.com/devcoons/go-cryptutils"
+	ztm "github.com/devcoons/go-ztm"
 	"github.com/gin-gonic/gin"
 )
 
 func RoutePOSTLogin(c *gin.Context) {
 
-	_, srv, ok := InitServiceSJWT(c)
+	_, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok || srv.SJwt == nil {
 		c.IndentedJSON(http.StatusExpectationFailed, nil)
 		return
 	}
 
-	values := UnmashalBody(c.Request.Body)
+	values := ztm.UnmashalBody(c.Request.Body)
 
 	if values == nil {
 		c.AbortWithStatus(401)

@@ -7,12 +7,13 @@ import (
 	"strings"
 	"time"
 
+	ztm "github.com/devcoons/go-ztm"
 	"github.com/gin-gonic/gin"
 )
 
 func RouteGETMeOverview(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok {
 		c.AbortWithStatus(401)
@@ -39,14 +40,14 @@ func RouteGETMeOverview(c *gin.Context) {
 
 func RoutePUTMe(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok || claims.UserId == -1 {
 		c.AbortWithStatus(401)
 		return
 	}
 
-	var values = UnmashalBody(c.Request.Body)
+	var values = ztm.UnmashalBody(c.Request.Body)
 	var updatevals map[string]interface{} = make(map[string]interface{})
 
 	if values["username"] != nil {
@@ -132,7 +133,7 @@ func RoutePUTMe(c *gin.Context) {
 
 func RouteGETMeComplete(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok {
 		c.AbortWithStatus(401)
@@ -171,7 +172,7 @@ func RouteGETMeComplete(c *gin.Context) {
 
 func RouteGETMeCompleteWPermissions(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok {
 		c.AbortWithStatus(401)

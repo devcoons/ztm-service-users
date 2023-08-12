@@ -7,12 +7,13 @@ import (
 	"net/http"
 
 	cryptutils "github.com/devcoons/go-cryptutils"
+	ztm "github.com/devcoons/go-ztm"
 	"github.com/gin-gonic/gin"
 )
 
 func RouteGETMeNonce(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok {
 		c.AbortWithStatus(401)
@@ -35,7 +36,7 @@ func RouteGETMeNonce(c *gin.Context) {
 
 func RoutePATCHMeNonce(c *gin.Context) {
 
-	claims, srv, ok := InitServiceSJWT(c)
+	claims, srv, ok := ztm.InitServiceSJWT(c)
 
 	if !ok {
 		c.AbortWithStatus(401)

@@ -1,9 +1,9 @@
 package models
 
 import (
-	utilities "api-users/utilities"
 	"time"
 
+	ztm "github.com/devcoons/go-ztm"
 	"gorm.io/gorm"
 )
 
@@ -20,7 +20,7 @@ func (u *UsersRecovery) BeforeCreate(db *gorm.DB) (err error) {
 }
 
 func (u *UsersRecovery) Create(db *gorm.DB) bool {
-	u.RecoveryToken = utilities.RandomString(96)
+	u.RecoveryToken = ztm.RandomString(96)
 	u.ExpireAt = time.Now().Add(time.Hour * 2)
 	u.CreatedAt = time.Now()
 	result := db.Create(u)
