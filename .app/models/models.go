@@ -62,22 +62,22 @@ type UserJsonOverview struct {
 }
 
 type UserJson struct {
-	Id          int       `json:"id,omitempty"`
-	Username    string    `json:"username,omitempty"`
-	Role        int       `json:"role,omitempty"`
-	FirstName   string    `json:"firstname,omitempty"`
-	LastName    string    `json:"lastname,omitempty"`
-	Image       []byte    `json:"image,omitempty"`
-	Company     string    `json:"company,omitempty"`
-	Email       string    `json:"email,omitempty"`
-	MobilePhone string    `json:"moblephone,omitempty"`
-	LandLine    string    `json:"landline,omitempty"`
-	Country     string    `json:"country,omitempty"`
-	Province    string    `json:"provice,omitempty"`
-	City        string    `json:"city,omitempty"`
-	Address     string    `json:"address,omitempty"`
-	IsEnabled   bool      `json:"is_enabled,omitempty"`
-	LastLogin   time.Time `json:"lastlogin,omitempty"`
-	CreatedAt   time.Time `json:"createdat,omitempty"`
-	UpdatedAt   time.Time `json:"updatedat,omitempty"`
+	Id          int       `json:"id"`
+	Username    string    `json:"username"`
+	Role        int       `json:"role"`
+	FirstName   string    `json:"firstname"`
+	LastName    string    `json:"lastname"`
+	Image       []byte    `json:"image"`
+	Company     string    `json:"company"`
+	Email       string    `json:"email"`
+	MobilePhone string    `json:"moblephone"`
+	LandLine    string    `json:"landline"`
+	Country     string    `json:"country"`
+	Province    string    `json:"provice"`
+	City        string    `json:"city"`
+	Address     string    `json:"address"`
+	IsEnabled   bool      `json:"is_enabled"`
+	LastLogin   time.Time `json:"lastlogin"`
+	CreatedAt   time.Time `json:"createdat"`
+	UpdatedAt   time.Time `json:"updatedat"`
 }

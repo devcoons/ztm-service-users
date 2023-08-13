@@ -151,7 +151,14 @@ func RouteGETUsersComplete(c *gin.Context) {
 
 	users := models.UsersGetAll(srv.Database)
 
-	c.IndentedJSON(http.StatusOK, users)
+	var usersAll []models.UserJson
+
+	for _, b := range *users {
+		nu := models.UserJson{Id: b.Id, Username: b.Username, Role: b.Role, Image: b.Image, FirstName: b.FirstName, LastName: b.LastName, Email: b.Email, Company: b.Company, Country: b.Country, Province: b.Province, LastLogin: b.LastLogin, CreatedAt: b.CreatedAt, UpdatedAt: b.UpdatedAt}
+		usersAll = append(usersAll, nu)
+	}
+
+	c.IndentedJSON(http.StatusOK, usersAll)
 }
 
 func RoutePUTUsersPasswordRecovery(c *gin.Context) {

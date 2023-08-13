@@ -45,7 +45,7 @@ func RoutePOSTRegister(c *gin.Context) {
 		return
 	}
 
-	var user = models.User{Username: values["username"].(string), Password: values["password"].(string), Role: 1, Nonce: cryptutils.RandString(6)}
+	var user = models.User{Username: values["username"].(string), Password: values["password"].(string), Role: 1, Nonce: cryptutils.RandString(6), Email: values["email"].(string)}
 
 	if !user.Create(srv.Database) {
 		c.IndentedJSON(http.StatusNotAcceptable, ztm.ErrorMsg{ErrorCode: "US-R-0004", Message: "User already exists"})
